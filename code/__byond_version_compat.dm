@@ -33,7 +33,5 @@
 /// Call by name proc reference, checks if the proc is an existing global proc
 #define GLOBAL_PROC_REF(X) (/proc/##X)
 
-// opendream doesn't have alist yet, so let's just do this to satisfy linters for now.
-#ifdef OPENDREAM
-#define alist list
-#endif
+// OpenDream implements /alist and alist(); keep the native associative-only
+// semantics instead of rewriting numeric keys as positional list indexes.

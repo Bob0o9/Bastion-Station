@@ -4,8 +4,8 @@
 		{
 			"type": "opendream",
 			"request": "launch",
-			"name": "OpenDream",
-			"preLaunchTask": "OpenDream: compile ${command:CurrentDME}",
+			"name": "OpenDream (patched sibling source)",
+			"preLaunchTask": "Bastion local: compile with source OpenDream",
 			"json_path": "${workspaceFolder}/${command:CurrentJson}"
 		},
 		{

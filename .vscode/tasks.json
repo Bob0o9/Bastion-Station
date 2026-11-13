@@ -2,6 +2,38 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "OpenDream local: build sibling source",
+			"type": "process",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"OpenDream.slnx",
+				"-c",
+				"Release",
+				"--no-restore"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/../OpenDream"
+			},
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "Bastion local: compile with source OpenDream",
+			"type": "process",
+			"command": "${workspaceFolder}/../OpenDream/bin/DMCompiler/DMCompiler.exe",
+			"args": [
+				"--version=516.1687",
+				"--define=CBT",
+				"tgstation.dme"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"dependsOn": "OpenDream local: build sibling source",
+			"dependsOrder": "sequence",
+			"problemMatcher": []
+		},
+		{
 			"type": "process",
 			"command": "tools/build/build.sh",
 			"windows": {

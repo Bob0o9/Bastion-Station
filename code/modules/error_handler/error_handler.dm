@@ -38,7 +38,8 @@ GLOBAL_VAR_INIT(total_runtimes_skipped, 0)
 	if(!islist(error_last_seen))
 		return ..() //how the fuck?
 
-	if(stack_workaround.Find(E.name))
+	// OpenDream can invoke /world/Error() before this static regex is initialized.
+	if(stack_workaround && stack_workaround.Find(E.name))
 		var/list/data = json_decode(stack_workaround.group[1])
 		E.file = data[1]
 		E.line = data[2]
