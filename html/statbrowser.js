@@ -913,6 +913,14 @@ function init_spells() {
   }
 }
 
+function remove_spells() {
+  for (var s = 0; s < spell_tabs.length; s++) {
+    removeStatusTab(spell_tabs[s]);
+  }
+  spell_tabs = [];
+  spells = [];
+}
+
 document.addEventListener("mouseup", restoreFocus);
 document.addEventListener("keyup", restoreFocus);
 
@@ -1014,9 +1022,7 @@ Byond.subscribeTo("update_mc", function (payload) {
 });
 
 Byond.subscribeTo("remove_spells", function () {
-  for (var s = 0; s < spell_tabs.length; s++) {
-    removeStatusTab(spell_tabs[s]);
-  }
+  remove_spells();
 });
 
 Byond.subscribeTo("init_spells", function () {
