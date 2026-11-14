@@ -141,6 +141,10 @@ GLOBAL_VAR(restart_counter)
 	if(NO_INIT_PARAMETER in params)
 		return
 
+	#ifdef OPENDREAM
+	world.ODDeferClientAdmission()
+	#endif
+
 	Master.Initialize(10, FALSE, TRUE)
 
 	RunUnattendedFunctions()

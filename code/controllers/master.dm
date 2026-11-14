@@ -465,6 +465,10 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview
 	if(tgs_prime)
 		world.TgsInitializationComplete()
 
+	#ifdef OPENDREAM
+	world.ODAllowClientAdmission()
+	#endif
+
 	if(sleep_offline_after_initializations)
 		world.sleep_offline = TRUE
 	sleep(1 TICKS)
