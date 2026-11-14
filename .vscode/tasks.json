@@ -2,19 +2,37 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "OpenDream local: build sibling source",
+			"label": "OpenDream local: build Tools server",
 			"type": "process",
 			"command": "dotnet",
 			"args": [
 				"build",
-				"OpenDream.slnx",
+				"OpenDreamServer/OpenDreamServer.csproj",
 				"-c",
-				"Release",
+				"Tools",
 				"--no-restore"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}/../OpenDream"
 			},
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "OpenDream local: build Tools client",
+			"type": "process",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"OpenDreamClient/OpenDreamClient.csproj",
+				"-c",
+				"Tools",
+				"--no-restore"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/../OpenDream"
+			},
+			"dependsOn": "OpenDream local: build Tools server",
+			"dependsOrder": "sequence",
 			"problemMatcher": "$msCompile"
 		},
 		{
@@ -29,7 +47,7 @@
 			"options": {
 				"cwd": "${workspaceFolder}"
 			},
-			"dependsOn": "OpenDream local: build sibling source",
+			"dependsOn": "OpenDream local: build Tools client",
 			"dependsOrder": "sequence",
 			"problemMatcher": []
 		},
