@@ -10,6 +10,7 @@
 				"OpenDreamServer/OpenDreamServer.csproj",
 				"-c",
 				"Tools",
+				"--disable-build-servers",
 				"--no-restore"
 			],
 			"options": {
@@ -26,6 +27,7 @@
 				"OpenDreamClient/OpenDreamClient.csproj",
 				"-c",
 				"Tools",
+				"--disable-build-servers",
 				"--no-restore"
 			],
 			"options": {
