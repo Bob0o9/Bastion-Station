@@ -20,8 +20,8 @@ export const ChatTabs = (props) => {
   const setSettingsVisible = useSetAtom(settingsVisibleAtom);
 
   return (
-    <Stack align="center">
-      <Stack.Item>
+    <Stack align="center" className="ChatTabs">
+      <Stack.Item grow className="ChatTabs__pages">
         <Tabs scrollable textAlign="center">
           {pages.map((page) => {
             const actual = pagesRecord[page];

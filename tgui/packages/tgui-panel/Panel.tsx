@@ -33,10 +33,10 @@ export function Panel(props) {
   return (
     <Pane theme={settings.theme} canSuspend={false}>
       <Stack fill vertical className="Panel__stack">
-        <Stack.Item>
+        <Stack.Item className="Panel__toolbar">
           <Section fitted>
             <Stack mr={1} align="center">
-              <Stack.Item grow>
+              <Stack.Item grow className="Panel__chatTabs">
                 <ChatTabs />
               </Stack.Item>
               <Stack.Item>
@@ -72,7 +72,7 @@ export function Panel(props) {
           </Stack.Item>
         )}
         {settingsVisible && (
-          <Stack.Item>
+          <Stack.Item className="Panel__settings">
             <SettingsPanel />
           </Stack.Item>
         )}

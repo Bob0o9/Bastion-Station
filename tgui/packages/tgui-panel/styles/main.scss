@@ -39,6 +39,25 @@
   gap: 0 !important;
 }
 
+// Keep the tab list scrollable without pushing its add/settings buttons out of view.
+.Panel__chatTabs,
+.ChatTabs,
+.ChatTabs__pages {
+  min-width: 0;
+}
+
+.Panel__toolbar {
+  flex-shrink: 0;
+}
+
+// Long settings pages need their own scroll area inside the fixed-height panel.
+.Panel__settings {
+  min-height: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
 :root {
   --chat-text-color: hsl(210, 50%, 80%);
 
