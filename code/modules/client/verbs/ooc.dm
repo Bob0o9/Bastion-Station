@@ -429,7 +429,10 @@ GAME_VERB_DESC(/client, fit_viewport, "Fit Viewport", "Fit the width of the map 
 
 /// Attempt to automatically fit the viewport, assuming the user wants it
 /client/proc/attempt_auto_fit_viewport()
-	if (!prefs.read_preference(/datum/preference/toggle/auto_fit_viewport))
+	var/auto_fit = prefs.read_preference(/datum/preference/toggle/auto_fit_viewport)
+	// Refit on native window resizes as well as view/zoom changes.
+	winset(src, "mainwindow", "on-size=[auto_fit ? "Fit-Viewport" : ""]")
+	if (!auto_fit)
 		return
 	if(fully_created)
 		INVOKE_ASYNC(src, VERB_REF(fit_viewport))
