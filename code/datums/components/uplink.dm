@@ -243,6 +243,7 @@
 			"name" = item.name,
 			"icon" = actual_item.icon,
 			"icon_state" = actual_item.icon_state,
+			"icon_id" = item.get_icon_id(),
 			"cost" = item.cost,
 			"desc" = item.desc,
 			"category" = item.category ? initial(item.category.name) : null,
@@ -296,6 +297,7 @@
 /datum/component/uplink/ui_assets(mob/user)
 	return list(
 		get_asset_datum(/datum/asset/json/uplink),
+		get_asset_datum(/datum/asset/spritesheet_batched/uplink),
 	)
 
 /datum/component/uplink/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)

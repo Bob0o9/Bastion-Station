@@ -25,6 +25,7 @@
 				"name" = item.name,
 				"icon" = actual_item.icon,
 				"icon_state" = actual_item.icon_state,
+				"icon_id" = item.get_icon_id(),
 				"cost" = item.cost,
 				"desc" = item.desc,
 				"category" = item.category ? initial(item.category.name) : null,
@@ -46,3 +47,19 @@
 	data["items"] = items
 	data["categories"] = categories
 	return data
+
+/datum/asset/spritesheet_batched/uplink
+	name = "uplink"
+
+/datum/asset/spritesheet_batched/uplink/create_spritesheets()
+	get_asset_datum(/datum/asset/json/uplink)
+	var/list/seen = list()
+	for(var/datum/uplink_item/item as anything in SStraitor.uplink_items)
+		var/icon_id = item.get_icon_id()
+		if(!icon_id || seen[icon_id])
+			continue
+		seen[icon_id] = TRUE
+		var/datum/universal_icon/preview = get_display_icon_for(item.item)
+		// Catalog slots share one atlas size, including previews of larger items.
+		preview.scale(32, 32)
+		insert_icon(icon_id, preview)

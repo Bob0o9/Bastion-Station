@@ -106,6 +106,15 @@
 		return
 	stock_key = type
 
+/// GAGS previews need generated, colored sprites rather than their mapper-only DMI.
+/datum/uplink_item/proc/get_icon_id()
+	var/atom/actual_item = item
+	if(!ispath(actual_item, /atom))
+		return null
+	if(!(actual_item::greyscale_config && actual_item::greyscale_colors) && !actual_item::color)
+		return null
+	return replacetext(replacetext("[actual_item]", "/obj/item/", ""), "/", "-")
+
 /datum/uplink_category
 	/// Name of the category
 	var/name

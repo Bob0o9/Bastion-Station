@@ -30,6 +30,7 @@ type UplinkItem = {
   name: string;
   icon: string;
   icon_state: string;
+  icon_id?: string;
   cost: number;
   desc: string;
   category: string;
@@ -234,6 +235,7 @@ export class Uplink extends Component<any, UplinkState> {
         name: item.name,
         icon: item.icon,
         icon_state: item.icon_state,
+        icon_id: item.icon_id,
         category: item.category,
         desc: (
           <>

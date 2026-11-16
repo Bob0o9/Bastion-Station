@@ -666,7 +666,7 @@
 	surplus = 100 //monkestation edit: from 0 to 100 HONK
 	purchasable_from = UPLINK_CLOWN_OPS
 
-/datum/uplink_item/stealthy_tools/syndigaloshes/nuke
+/datum/uplink_item/utility_clothing/syndigaloshes/nuke
 	item = /obj/item/clothing/shoes/chameleon/noslip
 	cost = 4
 	purchasable_from = UPLINK_NUKE_OPS

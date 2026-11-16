@@ -8,6 +8,7 @@ import {
   Divider,
   DmIcon,
   Icon,
+  Image,
   Input,
   NoticeBox,
   Section,
@@ -137,6 +138,7 @@ export type Item = {
   name: string;
   icon: string;
   icon_state: string;
+  icon_id?: string;
   category: string;
   cost: ReactNode | string;
   desc: ReactNode | string;
@@ -171,15 +173,29 @@ const ItemList = (props: ItemListProps) => {
                     m={compactMode ? '2px' : 0}
                     mr={1}
                   >
-                    <DmIcon
-                      position="absolute"
-                      bottom="0"
-                      fallback={fallback}
-                      icon={item.icon}
-                      icon_state={item.icon_state}
-                      width={compactMode ? '32px' : '64px'}
-                      height={compactMode ? '32px' : '64px'}
-                    />
+                    {item.icon_id ? (
+                      <Image
+                        className={`uplink32x32 ${item.icon_id}`}
+                        position="absolute"
+                        bottom="0"
+                        width="32px"
+                        height="32px"
+                        style={{
+                          transform: `scale(${compactMode ? 1 : 2})`,
+                          transformOrigin: 'bottom left',
+                        }}
+                      />
+                    ) : (
+                      <DmIcon
+                        position="absolute"
+                        bottom="0"
+                        fallback={fallback}
+                        icon={item.icon}
+                        icon_state={item.icon_state}
+                        width={compactMode ? '32px' : '64px'}
+                        height={compactMode ? '32px' : '64px'}
+                      />
+                    )}
                   </Box>
                 </Stack.Item>
                 <Stack.Item grow>
