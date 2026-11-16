@@ -1,0 +1,82 @@
+# Bastion Station on OpenDream
+
+This experimental branch contains the Bastion-side changes used to run the game on a modified OpenDream engine. It is based on original Bastion commit `01bd1c1a5429a8ebf49ef66f1bb943da998d2356` and is published as `opendream-compat` in Bob0o9's fork. The fork's `master` may contain newer upstream work; this branch has not been rebased onto or tested with those updates.
+
+**This repository is only the game-side portion of the port.** Stock OpenDream and the VS Code extension's automatically downloaded engine are not sufficient for the tested setup. The matching engine and modified RobustToolbox also need to be published before this is a reproducible public distribution.
+
+## Tested engine revisions
+
+| Component | Revision |
+| --- | --- |
+| OpenDream | `2a67893f3434426dd8724c0ff43d59d6159045c1` |
+| RobustToolbox submodule | `e6cf5b1dc463e70b441a241e4988afece5644eb2` |
+
+These revisions identify the local engine source used for this work; they are not yet downloadable from the upstream projects. Public engine/submodule fork links will be added when available. The identity-only history rewrite changed commit IDs without changing source.
+
+Most compatibility fixes live in OpenDream/RobustToolbox: DM execution, sprite/lighting rendering, inventory replication, input, browser integration, sight flags, maptext, and delivery of HUD animation events.
+
+## What this branch changes
+
+| Area | Game-side change |
+| --- | --- |
+| Associative lists | Remove the obsolete `OPENDREAM` macro that replaced `alist` with ordinary `list`. The patched compiler/runtime implements native associative-list semantics. |
+| Startup | Defer client admission until Bastion's asynchronous subsystem initialization finishes, using `ODDeferClientAdmission()` and `ODAllowClientAdmission()`. |
+| Early errors | Guard an uninitialized static regex in the runtime error handler. |
+| Chat | Start chat sequence numbers at zero rather than interpolating null into JSON. |
+| Legacy stat panel | Supply the missing spell-tab cleanup function and clear its stale arrays. |
+| TGUI updates | Let the existing window queue retain updates produced before its opening handshake finishes. |
+| Uplink | Correct nuclear-ops no-slip chameleon shoes' inherited metadata while retaining their original category; provide generated colored/GAGS preview sprites for normal and discounted entries. |
+| Developer tools | Build the sibling patched OpenDream server/client sequentially in Tools configuration, then compile Bastion with its expected build defines. |
+
+This branch also includes optional UI/appearance improvements, rather than strictly necessary engine compatibility work: fitting the viewport after resizing, keeping chat tabs/settings reachable, sizing chat against its current pane, and making observers about 85% transparent. These are separate commits and can be reviewed or omitted independently. The original upstream code and asset licenses remain in effect.
+
+## Local development setup
+
+The tested platform is Windows x64. Install Git, the .NET SDK required by OpenDream's `global.json` (10.0.100 with its configured roll-forward policy), and Bastion's frontend/native dependencies. `dependencies.sh` is the project's dependency reference: the tested frontend uses Bun 1.3.6 and the native library is Monkestation/rust-g 7.0.0 (`rust_g64.dll` in the Bastion root on Windows). Follow upstream setup instructions for other dependencies; installing BYOND alone does not supply the patched OpenDream client.
+
+Use sibling directories named `Bastion-Station` and `OpenDream`. Once the matching patched OpenDream source and its submodules are available, build from the OpenDream directory:
+
+```powershell
+dotnet restore
+dotnet build OpenDreamServer/OpenDreamServer.csproj -c Tools --no-restore --disable-build-servers
+dotnet build OpenDreamClient/OpenDreamClient.csproj -c Tools --no-restore --disable-build-servers
+```
+
+Stop existing game processes before rebuilding binaries. Initialize the engine's recursive submodules using the published fork URLs once those forks are available.
+
+Build the frontend from `Bastion-Station/tgui`:
+
+```powershell
+bun install --frozen-lockfile
+bun run tgui:build
+```
+
+From `Bastion-Station`, compile the game:
+
+```powershell
+../OpenDream/bin/DMCompiler/DMCompiler.exe --version=516.1687 --define=CBT tgstation.dme
+```
+
+`CBT` is Bastion's regular build define; omitting it can select mapper-preview icon states instead of runtime states. Generated frontend bundles, compiled world output, native libraries, saves, and local server configuration are not distributed through this source branch.
+
+From the OpenDream `bin/Content.Server` directory, start the server:
+
+```powershell
+./OpenDreamServer.exe --cvar net.port=1212 --cvar opendream.always_show_exceptions=true --cvar opendream.json_path=../../../Bastion-Station/tgstation.json
+```
+
+Wait for `Initializations complete` in the server output. From `bin/Content.Client`, connect with the matching client:
+
+```powershell
+./OpenDreamClient.exe --connect --connect-address 127.0.0.1:1212 --username TestPlayer
+```
+
+The patched engine also has `Tools/Prepare-ResourcePack.ps1` and `Tools/Start-PreloadedClient.ps1` for preloading matching game resources. See that engine's `Tools/ResourcePacks.md`; rebuild and verify the pack after changing the compiled world/assets. Preloading is optional and the normal VS Code F5 launch does not automatically mount it.
+
+## Status and limitations
+
+Local testing has exercised lobby/round entry, observer movement and roles, portable lights, thermals, chat/TGUI, inventory, and shuttle navigation. This is not complete SS13 feature coverage or evidence of multi-player/network stability. BYOND clients cannot connect to an OpenDream server.
+
+Known follow-ups include browser asset-cache warnings, unsupported multichannel audio, and input arriving before a client's startup admission completes. Native `world.Reboot()` currently shuts the OpenDream server down without relaunching it; use an external process restart for a new round. The three-second splash fade has an engine-side connected regression test, but still needs a real round-start visual retest.
+
+No runnable release or public game server is included with this branch. When reporting a problem, include the game and engine revisions, reproduction steps, and relevant logs with account details, tokens, and private configuration removed.

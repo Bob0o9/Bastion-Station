@@ -1,5 +1,7 @@
 # Bastion Station Codebase
 
+> **OpenDream compatibility branch:** see [setup, patch scope, and known limitations](OPENDREAM_COMPATIBILITY.md). This branch requires a matching patched OpenDream build; the standard BYOND instructions below describe the original project.
+
 [![Build Status](https://github.com/Bastion-Station-13/Bastion-Station/workflows/CI%20Suite/badge.svg)](https://github.com/Bastion-Station-13/Bastion-Station/actions?query=workflow%3A%22CI+Suite%22)
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/monkestation/monkestation2.0.svg)](https://isitmaintained.com/project/monkestation/monkestation2.0 "Percentage of issues still open")
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/monkestation/monkestation2.0.svg)](https://isitmaintained.com/project/monkestation/monkestation2.0 "Average time to resolve an issue")
