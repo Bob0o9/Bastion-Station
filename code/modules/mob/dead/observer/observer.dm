@@ -12,6 +12,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	stat = DEAD
 	density = FALSE
 	appearance_flags = KEEP_TOGETHER
+	alpha = 128 // Keep overlapping observers from obscuring the scene.
 	see_invisible = SEE_INVISIBLE_OBSERVER
 	lighting_cutoff = LIGHTING_CUTOFF_MEDIUM
 	invisibility = INVISIBILITY_OBSERVER
@@ -79,10 +80,12 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	else
 		ghostimage_default = image(src.icon,src,src.icon_state)
 	ghostimage_default.override = TRUE
+	ghostimage_default.alpha = alpha
 	GLOB.ghost_images_default |= ghostimage_default
 
 	ghostimage_simple = image(src.icon,src,"ghost_nodir")
 	ghostimage_simple.override = TRUE
+	ghostimage_simple.alpha = alpha
 	GLOB.ghost_images_simple |= ghostimage_simple
 
 	updateallghostimages()
