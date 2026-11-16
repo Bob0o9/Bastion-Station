@@ -667,6 +667,7 @@
 	purchasable_from = UPLINK_CLOWN_OPS
 
 /datum/uplink_item/utility_clothing/syndigaloshes/nuke
+	category = /datum/uplink_category/stealthy_tools
 	item = /obj/item/clothing/shoes/chameleon/noslip
 	cost = 4
 	purchasable_from = UPLINK_NUKE_OPS
