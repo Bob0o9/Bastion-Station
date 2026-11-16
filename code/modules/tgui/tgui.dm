@@ -251,7 +251,10 @@
  * optional force bool Send an update even if UI is not interactive.
  */
 /datum/tgui/proc/send_update(custom_data, force)
-	if(!user?.client || !initialized || closing)
+	// The window queues messages until it is ready. Asynchronous producers
+	// (such as loot icons) can finish before the UI's ready/ping reply arrives.
+	// Dropping that update leaves non-autoupdating UIs on their initial data.
+	if(!user?.client || !window || closing)
 		return
 	var/should_update_data = force || status >= UI_UPDATE
 	window.send_message("update", get_payload(
