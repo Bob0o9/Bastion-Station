@@ -49,10 +49,9 @@ function setupApp() {
     left: 'output_browser',
   });
 
-  Byond.winget('output_browser').then((output: { size: string }) => {
-    Byond.winset('browseroutput', {
-      size: output.size,
-    });
+  // Resolve against the current pane: an async winget size can go stale on resize.
+  Byond.winset('browseroutput', {
+    size: '0x0',
   });
 
   // Enable hot module reloading
