@@ -2,16 +2,16 @@
 
 This experimental branch contains the Bastion-side changes used to run the game on a modified OpenDream engine. It is based on original Bastion commit `01bd1c1a5429a8ebf49ef66f1bb943da998d2356` and is published as `opendream-compat` in Bob0o9's fork. The fork's `master` may contain newer upstream work; this branch has not been rebased onto or tested with those updates.
 
-**This repository is only the game-side portion of the port.** Stock OpenDream and the VS Code extension's automatically downloaded engine are not sufficient for the tested setup. The matching engine and modified RobustToolbox also need to be published before this is a reproducible public distribution.
+**This repository is only the game-side portion of the port.** Stock OpenDream and the VS Code extension's automatically downloaded engine are not sufficient for the tested setup. The matching [OpenDream](https://github.com/Bob0o9/OpenDream) and [RobustToolbox](https://github.com/Bob0o9/RobustToolbox) development copies are private. You need explicit read access to both before cloning/building them; this public game branch does not grant that access.
 
 ## Tested engine revisions
 
 | Component | Revision |
 | --- | --- |
-| OpenDream | `2a67893f3434426dd8724c0ff43d59d6159045c1` |
-| RobustToolbox submodule | `e6cf5b1dc463e70b441a241e4988afece5644eb2` |
+| OpenDream | `7d113b3bc175a0773b50c8facaf62cd45f10bb1c` |
+| RobustToolbox submodule | `150cca72b3821d456736a47c81f8ad5d04f04c0f` |
 
-These revisions identify the local engine source used for this work; they are not yet downloadable from the upstream projects. Public engine/submodule fork links will be added when available. The identity-only history rewrite changed commit IDs without changing source.
+Both private repositories use `opendream-compat` as their default branch. These publication revisions add documentation and private submodule wiring to the tested engine code at OpenDream `2a67893f` / RobustToolbox `e6cf5b1dc`; no runtime code changed during publication. They are not available in upstream engine releases. The earlier identity-only history rewrite changed commit IDs without changing source.
 
 Most compatibility fixes live in OpenDream/RobustToolbox: DM execution, sprite/lighting rendering, inventory replication, input, browser integration, sight flags, maptext, and delivery of HUD animation events.
 
@@ -34,7 +34,7 @@ This branch also includes optional UI/appearance improvements, rather than stric
 
 The tested platform is Windows x64. Install Git, the .NET SDK required by OpenDream's `global.json` (10.0.100 with its configured roll-forward policy), and Bastion's frontend/native dependencies. `dependencies.sh` is the project's dependency reference: the tested frontend uses Bun 1.3.6 and the native library is Monkestation/rust-g 7.0.0 (`rust_g64.dll` in the Bastion root on Windows). Follow upstream setup instructions for other dependencies; installing BYOND alone does not supply the patched OpenDream client.
 
-Use sibling directories named `Bastion-Station` and `OpenDream`. Once the matching patched OpenDream source and its submodules are available, build from the OpenDream directory:
+Use sibling directories named `Bastion-Station` and `OpenDream`. After gaining access to both private engine repositories, clone OpenDream with `--branch opendream-compat --recurse-submodules`; its submodule URL points to the matching private RobustToolbox copy. Build from the OpenDream directory:
 
 ```powershell
 dotnet restore
