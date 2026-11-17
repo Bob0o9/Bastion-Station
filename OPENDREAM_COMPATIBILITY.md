@@ -8,10 +8,10 @@ This experimental branch contains the Bastion-side changes used to run the game 
 
 | Component | Revision |
 | --- | --- |
-| OpenDream | `7d113b3bc175a0773b50c8facaf62cd45f10bb1c` |
+| OpenDream | `ad0fcccd3d1003be33f8a8ea523ea29419493f98` |
 | RobustToolbox submodule | `150cca72b3821d456736a47c81f8ad5d04f04c0f` |
 
-Both private repositories use `opendream-compat` as their default branch. These publication revisions add documentation and private submodule wiring to the tested engine code at OpenDream `2a67893f` / RobustToolbox `e6cf5b1dc`; no runtime code changed during publication. They are not available in upstream engine releases. The earlier identity-only history rewrite changed commit IDs without changing source.
+Both private repositories use `opendream-compat` as their default branch. The revisions above were validated on November 17, 2026, with Bastion's compatibility code at `e3a649927b0`: both engine builds, all 787 unit tests, and the connected regression suite passed. Later documentation-only commits may follow these revisions. Local gameplay checks cover working standard camera feeds and restored clothing colors; complete BYOND compatibility and multiplayer stability remain unverified. These engine changes are not available in upstream releases.
 
 Most compatibility fixes live in OpenDream/RobustToolbox: DM execution, sprite/lighting rendering, inventory replication, input, browser integration, sight flags, maptext, and delivery of HUD animation events.
 
