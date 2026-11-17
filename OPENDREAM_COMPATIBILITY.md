@@ -37,7 +37,7 @@ This branch also includes optional UI/appearance improvements, rather than stric
 
 ## Local development setup
 
-The tested platform is Windows x64. Install Git, the .NET SDK required by OpenDream's `global.json` (10.0.100 with its configured roll-forward policy), and Bastion's frontend/native dependencies. `dependencies.sh` is the project's dependency reference: the tested frontend uses Bun 1.3.6 and the native library is Monkestation/rust-g 7.0.0 (`rust_g64.dll` in the Bastion root on Windows). Follow upstream setup instructions for other dependencies; installing BYOND alone does not supply the patched OpenDream client.
+The tested platform is Windows x64. Install Git, the .NET SDK required by OpenDream's `global.json` (10.0.100 with its configured roll-forward policy), and Bastion's frontend/native dependencies. `dependencies.sh` is the project's dependency reference: the frontend specifies Node.js 24.12.0 and Bun 1.3.6, and the native library is Monkestation/rust-g 7.0.0 (`rust_g64.dll` in the Bastion root on Windows). Follow upstream setup instructions for other dependencies; installing BYOND alone does not supply the patched OpenDream client.
 
 Use sibling directories named `Bastion-Station` and `OpenDream`. After gaining access to both private engine repositories, clone OpenDream with `--branch opendream-compat --recurse-submodules`; its submodule URL points to the matching private RobustToolbox copy. Build from the OpenDream directory:
 
@@ -52,9 +52,15 @@ Stop existing game processes before rebuilding binaries. Initialize the engine's
 Build the frontend from `Bastion-Station/tgui`:
 
 ```powershell
-bun install --frozen-lockfile
+bun install --frozen-lockfile --ignore-scripts
 bun run tgui:build
 ```
+
+On Windows, `ttf2woff2`'s optional native-build install script uses subshell
+redirection that Bun 1.3.6 cannot parse. `--ignore-scripts` skips package lifecycle
+scripts while installing the locked dependencies. The explicit TGUI build still
+runs afterward. A clean Windows install with this flag and Bun 1.3.6 successfully
+built all three TGUI bundles. No compiler or package version change is required.
 
 From `Bastion-Station`, compile the game:
 
@@ -63,6 +69,11 @@ From `Bastion-Station`, compile the game:
 ```
 
 `CBT` is Bastion's regular build define; omitting it can select mapper-preview icon states instead of runtime states. Generated frontend bundles, compiled world output, native libraries, saves, and local server configuration are not distributed through this source branch.
+
+The DM compiler above is built from the sibling OpenDream repository, not from
+Bastion. Bastion's normal `BUILD.cmd` invokes BYOND DreamMaker and produces
+`.dmb`/`.rsc` output; it does not replace the OpenDream compilation step that
+creates `tgstation.json`.
 
 From the OpenDream `bin/Content.Server` directory, start the server:
 
