@@ -26,6 +26,7 @@ Most compatibility fixes live in OpenDream/RobustToolbox: DM execution, sprite/l
 | Legacy stat panel | Supply the missing spell-tab cleanup function and clear its stale arrays. |
 | TGUI updates | Let the existing window queue retain updates produced before its opening handshake finishes. |
 | Uplink | Correct nuclear-ops no-slip chameleon shoes' inherited metadata while retaining their original category; provide generated colored/GAGS preview sprites for normal and discounted entries. |
+| Inventory previews | Under `OPENDREAM`, clear the hovered equipment preview when held items change, and unregister its signal when the preview or HUD is removed. |
 | Developer tools | Build the sibling patched OpenDream server/client sequentially in Tools configuration, then compile Bastion with its expected build defines. |
 
 This branch also includes optional UI/appearance improvements, rather than strictly necessary engine compatibility work: fitting the viewport after resizing, keeping chat tabs/settings reachable, sizing chat against its current pane, and making observers about 85% transparent. These are separate commits and can be reviewed or omitted independently. The original upstream code and asset licenses remain in effect.

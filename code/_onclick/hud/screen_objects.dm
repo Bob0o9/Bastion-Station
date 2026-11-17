@@ -189,6 +189,10 @@
 	var/icon_full
 	/// The overlay when hovering over with an item in your hand
 	var/image/object_overlay
+#ifdef OPENDREAM
+	/// Owner whose held-item updates invalidate the current equip preview.
+	var/mob/inventory_preview_owner
+#endif
 	plane = HUD_PLANE
 
 /atom/movable/screen/inventory/Click(location, control, params)
@@ -217,8 +221,30 @@
 
 /atom/movable/screen/inventory/MouseExited()
 	..()
+	clear_inventory_preview()
+
+/atom/movable/screen/inventory/proc/clear_inventory_preview()
+#ifdef OPENDREAM
+	if(inventory_preview_owner)
+		UnregisterSignal(inventory_preview_owner, COMSIG_MOB_UPDATE_HELD_ITEMS)
+		inventory_preview_owner = null
+#endif
 	cut_overlay(object_overlay)
 	object_overlay = null
+
+#ifdef OPENDREAM
+/atom/movable/screen/inventory/Destroy()
+	clear_inventory_preview()
+	return ..()
+
+/atom/movable/screen/inventory/set_new_hud(datum/hud/hud_owner)
+	clear_inventory_preview()
+	return ..()
+
+/atom/movable/screen/inventory/proc/on_preview_held_items_changed(datum/source)
+	SIGNAL_HANDLER
+	clear_inventory_preview()
+#endif
 
 /atom/movable/screen/inventory/update_icon_state()
 	if(!icon_empty)
@@ -229,6 +255,9 @@
 	return ..()
 
 /atom/movable/screen/inventory/proc/add_overlays()
+#ifdef OPENDREAM
+	clear_inventory_preview()
+#endif
 	var/mob/user = hud?.mymob
 
 	if(!user || !slot_id)
@@ -250,6 +279,10 @@
 	cut_overlay(object_overlay)
 	object_overlay = item_overlay
 	add_overlay(object_overlay)
+#ifdef OPENDREAM
+	inventory_preview_owner = user
+	RegisterSignal(user, COMSIG_MOB_UPDATE_HELD_ITEMS, PROC_REF(on_preview_held_items_changed))
+#endif
 
 /atom/movable/screen/inventory/hand
 	var/mutable_appearance/handcuff_overlay
