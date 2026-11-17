@@ -89,6 +89,13 @@ Wait for `Initializations complete` in the server output. From `bin/Content.Clie
 
 The patched engine also has `Tools/Prepare-ResourcePack.ps1` and `Tools/Start-PreloadedClient.ps1` for preloading matching game resources. See that engine's `Tools/ResourcePacks.md`; rebuild and verify the pack after changing the compiled world/assets. Preloading is optional and the normal VS Code F5 launch does not automatically mount it.
 
+For double-click launching after the builds above, use **Launch Server.cmd** and
+**Launch Client.cmd** at the top of the OpenDream folder. **Edit Launch Settings.cmd**
+opens the local text file that selects `tgstation.json`; its default works with
+these sibling folders. **Stop Server.cmd** stops that checkout's server. Basic
+launching uses Windows PowerShell 5.1 or newer; PowerShell 7 adds automatic resource
+preloading. Details are in the private engine's `Tools/Bastion-Launchers.md`.
+
 ## Status and limitations
 
 Local testing has exercised lobby/round entry, observer movement and roles, portable lights, thermals, chat/TGUI, inventory, and shuttle navigation. This is not complete SS13 feature coverage or evidence of multi-player/network stability. BYOND clients cannot connect to an OpenDream server.
