@@ -1,6 +1,6 @@
 # Bastion Station on OpenDream
 
-This experimental branch contains the Bastion-side changes used to run the game on a modified OpenDream engine. It is based on original Bastion commit `01bd1c1a5429a8ebf49ef66f1bb943da998d2356` and is published as `opendream-compat` in Bob0o9's fork. The fork's `master` may contain newer upstream work; this branch has not been rebased onto or tested with those updates.
+This experimental branch contains the Bastion-side changes used to run the game on a modified OpenDream engine. It is based on upstream Bastion commit `2aaf38c8cd108159269e05d4277b9d63060a5c18` and is published as `opendream-compat` in Bob0o9's fork. On November 18, 2026, all 23 existing compatibility commits were rebased from the original `01bd1c1a5429a8ebf49ef66f1bb943da998d2356` baseline, bringing in 95 upstream commits without changing the compatibility patches.
 
 **This repository is only the game-side portion of the port.** Stock OpenDream and the VS Code extension's automatically downloaded engine are not sufficient for the tested setup. The matching [OpenDream](https://github.com/Bob0o9/OpenDream) and [RobustToolbox](https://github.com/Bob0o9/RobustToolbox) development copies are private. You need explicit read access to both before cloning/building them; this public game branch does not grant that access.
 
@@ -8,14 +8,29 @@ This experimental branch contains the Bastion-side changes used to run the game 
 
 | Component | Revision |
 | --- | --- |
-| OpenDream | `34bab0aad7540299295f87bf7713c5a873346f2f` |
-| RobustToolbox submodule | `5d337bd2de84cd086c0f23d072224857176a0d9e` |
+| OpenDream | `7e35a68cebc48d2c53e7f9c7bc6c54f63364928e` |
+| RobustToolbox submodule | `cffbdaed5dff5e261cf5bcd4a108144f4fb8ecaa` |
 
-Both private repositories use `opendream-compat` as their default branch. On November 17, 2026, the runtime code at OpenDream `ad0fcccd` with Bastion compatibility code `e3a649927b0` passed both engine builds, all 787 unit tests, and the connected regression suite. The newer revision above retains that runtime code and repairs dependency packaging; its three fragment-budget regression tests pass. Later documentation-only commits may follow these revisions. Local gameplay checks cover working standard camera feeds and restored clothing colors; complete BYOND compatibility and multiplayer stability remain unverified. These engine changes are not available in upstream releases.
+Both private repositories use `opendream-compat` as their default branch. On November 18, 2026, the rebased game compiled successfully, all three TGUI bundles built, both engine builds passed, all 802 unit tests passed, and the connected regression suite passed. A fresh server completed initialization in 182.2 seconds and admitted the client; TGUI Say, the changelog and game preferences were checked. The talk box now honors frameless options even though its window already exists in the skin. Rebuild the matching server and client together. These checks do not replace full gameplay testing of the upstream changes. Earlier gameplay checks cover working standard camera feeds, restored clothing colors, delivery-bin flaps and corrected portable-light blending; complete BYOND compatibility and multiplayer stability remain unverified. These engine changes are not available in upstream releases.
 
 Use the current `opendream-compat` branch when cloning: the RobustToolbox pin above packages the existing Lidgren fix without an unpublished nested dependency. The original tested engine revision used the same networking limit through a local-only Lidgren commit; that older dependency pin cannot be fetched by a fresh recursive clone. Access to the same two private repositories is sufficient.
 
 The repaired dependency packaging passed a fresh recursive submodule checkout, package restore, and server/client/compiler Tools builds with .NET SDK 10.0.302. Existing failed clones can be repaired using the commands in the private engine's compatibility guide.
+
+### Existing clones after the November 18 rebase
+
+The game branch's history changed, so an older checkout cannot update with a
+fast-forward pull. Preserve any local work first. A fresh clone uses the same
+commands as before. Alternatively, fetch and create a new local branch at the
+updated remote branch, leaving the old branch available for comparison:
+
+```powershell
+git fetch origin
+git switch -c opendream-compat-updated origin/opendream-compat
+```
+
+OpenDream and RobustToolbox were updated normally and do not require a history
+reset. Pull OpenDream and update its recursive submodules before rebuilding.
 
 Most compatibility fixes live in OpenDream/RobustToolbox: DM execution, sprite/lighting rendering, inventory replication, input, browser integration, sight flags, maptext, and delivery of HUD animation events.
 
