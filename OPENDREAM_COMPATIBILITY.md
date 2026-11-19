@@ -8,8 +8,8 @@ This experimental branch contains the Bastion-side changes used to run the game 
 
 | Component | Revision |
 | --- | --- |
-| OpenDream | `7e35a68cebc48d2c53e7f9c7bc6c54f63364928e` |
-| RobustToolbox submodule | `cffbdaed5dff5e261cf5bcd4a108144f4fb8ecaa` |
+| OpenDream | `db078de21810c408b0196003d262d62d5a510bb3` |
+| RobustToolbox submodule | `4a9e82e28` |
 
 Both private repositories use `opendream-compat` as their default branch. On November 18, 2026, the rebased game compiled successfully, all three TGUI bundles built, both engine builds passed, all 802 unit tests passed, and the connected regression suite passed. A fresh server completed initialization in 182.2 seconds and admitted the client; TGUI Say, the changelog and game preferences were checked. The talk box now honors frameless options even though its window already exists in the skin. Rebuild the matching server and client together. These checks do not replace full gameplay testing of the upstream changes. Earlier gameplay checks cover working standard camera feeds, restored clothing colors, delivery-bin flaps and corrected portable-light blending; complete BYOND compatibility and multiplayer stability remain unverified. These engine changes are not available in upstream releases.
 
@@ -48,7 +48,7 @@ Most compatibility fixes live in OpenDream/RobustToolbox: DM execution, sprite/l
 | Inventory previews | Under `OPENDREAM`, clear the hovered equipment preview when held items change, and unregister its signal when the preview or HUD is removed. |
 | Developer tools | Build the sibling patched OpenDream server/client sequentially in Tools configuration, then compile Bastion with its expected build defines. |
 
-This branch also includes optional UI/appearance improvements, rather than strictly necessary engine compatibility work: fitting the viewport after resizing, keeping chat tabs/settings reachable, sizing chat against its current pane, and making observers about 85% transparent. These are separate commits and can be reviewed or omitted independently. The original upstream code and asset licenses remain in effect.
+This branch also includes optional UI/appearance improvements, rather than strictly necessary engine compatibility work: fitting the viewport after resizing, keeping chat tabs/settings reachable, and sizing chat against its current pane. These are separate commits and can be reviewed or omitted independently. The earlier observer-alpha override was removed after the November 19 engine compositing correction; observers now use Bastion's original sprite transparency. The original upstream code and asset licenses remain in effect.
 
 ## Local development setup
 
