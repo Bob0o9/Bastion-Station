@@ -121,6 +121,6 @@ preloading. Details are in the private engine's `Tools/Bastion-Launchers.md`.
 
 Local testing has exercised lobby/round entry, observer movement and roles, portable lights, thermals, chat/TGUI, inventory, and shuttle navigation. This is not complete SS13 feature coverage or evidence of multi-player/network stability. BYOND clients cannot connect to an OpenDream server.
 
-Known follow-ups include browser asset-cache warnings, unsupported multichannel audio, and input arriving before a client's startup admission completes. Native `world.Reboot()` currently shuts the OpenDream server down without relaunching it; use an external process restart for a new round. The three-second splash fade has an engine-side connected regression test, but still needs a real round-start visual retest.
+Known follow-ups include browser asset-cache warnings and unsupported multichannel audio. The patched engine defers clients until startup finishes and automatically relaunches the server after `world.Reboot()`. Clients reconnect to the same address; automatic client reconnection is not implemented. The three-second splash fade has an engine-side connected regression test, but still needs a real round-start visual retest.
 
 No runnable release or public game server is included with this branch. When reporting a problem, include the game and engine revisions, reproduction steps, and relevant logs with account details, tokens, and private configuration removed.
