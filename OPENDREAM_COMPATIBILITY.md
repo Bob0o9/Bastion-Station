@@ -8,8 +8,8 @@ This experimental branch contains the Bastion-side changes used to run the game 
 
 | Component | Revision |
 | --- | --- |
-| OpenDream | `db078de21810c408b0196003d262d62d5a510bb3` |
-| RobustToolbox submodule | `4a9e82e28` |
+| OpenDream | `5e3c84822442cf6d3a2eb3e20ccea052cde645e1` |
+| RobustToolbox submodule | `4aa574420a33cac3c039eed07d5b2e73f1da1f4a` |
 
 Both private repositories use `opendream-compat` as their default branch. On November 18, 2026, the rebased game compiled successfully, all three TGUI bundles built, both engine builds passed, all 802 unit tests passed, and the connected regression suite passed. A fresh server completed initialization in 182.2 seconds and admitted the client; TGUI Say, the changelog and game preferences were checked. The talk box now honors frameless options even though its window already exists in the skin. Rebuild the matching server and client together. These checks do not replace full gameplay testing of the upstream changes. Earlier gameplay checks cover working standard camera feeds, restored clothing colors, delivery-bin flaps and corrected portable-light blending; complete BYOND compatibility and multiplayer stability remain unverified. These engine changes are not available in upstream releases.
 
@@ -51,6 +51,12 @@ Most compatibility fixes live in OpenDream/RobustToolbox: DM execution, sprite/l
 This branch also includes optional UI/appearance improvements, rather than strictly necessary engine compatibility work: fitting the viewport after resizing, keeping chat tabs/settings reachable, and sizing chat against its current pane. These are separate commits and can be reviewed or omitted independently. The earlier observer-alpha override was removed after the November 19 engine compositing correction; observers now use Bastion's original sprite transparency. The original upstream code and asset licenses remain in effect.
 
 ## Local development setup
+
+The November 19 engine follow-up corrects translucent ambient shadows, which
+made station gas look too opaque, and releases wildcard key handlers on focus
+loss. The station gas correction was confirmed against a native BYOND build
+of the same current game source. The engine passed 810 unit tests and its
+connected regression test; the game compiled with both OpenDream and BYOND.
 
 The tested platform is Windows x64. Install Git, the .NET SDK required by OpenDream's `global.json` (10.0.100 with its configured roll-forward policy), and Bastion's frontend/native dependencies. `dependencies.sh` is the project's dependency reference: the frontend specifies Node.js 24.12.0 and Bun 1.3.6, and the native library is Monkestation/rust-g 7.0.0 (`rust_g64.dll` in the Bastion root on Windows). Follow upstream setup instructions for other dependencies; installing BYOND alone does not supply the patched OpenDream client.
 
